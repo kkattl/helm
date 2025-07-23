@@ -1,0 +1,27 @@
+image:
+  repository: docker.io/kkattl/backend
+  tag: latest
+  pullPolicy: IfNotPresent
+
+replicaCount: 2
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: true
+  className: nginx
+  host: habast.top
+  tlsSecret: backend-tls
+
+env:
+  DATABASE_HOST: postgres-postgresql.data.svc.cluster.local
+  DATABASE_NAME: mydb
+  DATABASE_USER: myuser
+  REDIS_HOST: redis-master.data.svc.cluster.local
+
+resources: {}
+nodeSelector: {}
+affinity: {}
+tolerations: []

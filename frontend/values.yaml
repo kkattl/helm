@@ -1,0 +1,24 @@
+image:
+  repository: docker.io/kkattl/frontend
+  tag: latest
+  pullPolicy: IfNotPresent
+
+replicaCount: 2
+
+service:
+  type: ClusterIP
+  port: 3000
+
+ingress:
+  enabled: true
+  className: nginx
+  host: habast.top
+  tlsSecret: frontend-tls
+
+backend:
+  url: https://habast.top/api/
+
+resources: {}
+nodeSelector: {}
+affinity: {}
+tolerations: []
