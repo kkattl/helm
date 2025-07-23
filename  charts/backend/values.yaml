@@ -13,7 +13,8 @@ ingress:
   enabled: true
   className: nginx
   host: habast.top
-  tlsSecret: backend-tls
+  tlsSecret: habast-top-tls
+  path: /api(/|$)(.*)
 
 env:
   DATABASE_HOST: postgres-postgresql.data.svc.cluster.local

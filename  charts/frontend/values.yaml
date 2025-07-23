@@ -13,7 +13,7 @@ ingress:
   enabled: true
   className: nginx
   host: habast.top
-  tlsSecret: frontend-tls
+  tlsSecret: habast-top-tls
 
 backend:
   url: https://habast.top/api/
