@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Release.Name }}-frontend-conf
+  name: {{ include "frontend.fullname" . }}-conf
 data:
   env.js: |
     window._env_ = {
-      API_BASE_URL: "{{ .Values.backend.url }}"
+      REACT_APP_API_BASE_URL: "https://habast.top/api/"  
     };

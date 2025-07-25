@@ -1,7 +1,6 @@
 image:
   repository: docker.io/kkattl/frontend
   tag: latest
-  pullPolicy: IfNotPresent
 
 replicaCount: 2
 
@@ -9,16 +8,22 @@ service:
   type: ClusterIP
   port: 3000
 
+envJs:
+  API_BASE_URL: "https://habast.top/api/"
+  REACT_APP_API_BASE_URL: "https://habast.top/api/"
+
 ingress:
   enabled: true
-  className: nginx
-  host: habast.top
-  tlsSecret: habast-top-tls
-
-backend:
-  url: https://habast.top/api/
-
-resources: {}
-nodeSelector: {}
-affinity: {}
-tolerations: []
+  className: traefik              
+  hosts:
+    - host: habast.top
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - hosts:
+        - habast.top
+      secretName: habast-top-tls
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+    traefik.ingress.kubernetes.io/router.redirectscheme: "https"

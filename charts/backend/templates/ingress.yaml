@@ -4,22 +4,28 @@ kind: Ingress
 metadata:
   name: {{ .Release.Name }}-backend
   annotations:
-    kubernetes.io/ingress.class: {{ .Values.ingress.className }}
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+{{- if .Values.ingress.tls.enabled }}
     cert-manager.io/cluster-issuer: letsencrypt-prod
+{{- end }}
 spec:
-  tls:
-  - hosts:
-    - {{ .Values.ingress.host }}
-    secretName: {{ .Values.ingress.tlsSecret }}
+  ingressClassName: traefik
   rules:
-  - host: {{ .Values.ingress.host }}
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: {{ .Release.Name }}-backend
-            port:
-              number: {{ .Values.service.port }}
+    - host: {{ .Values.ingress.host }}
+      http:
+        paths:
+          - path: {{ .Values.ingress.path }}  
+            pathType: {{ .Values.ingress.pathType }}   
+            backend:
+              service:
+                name: {{ .Release.Name }}-backend
+                port:
+                  number: {{ .Values.service.port }}
+{{- if .Values.ingress.tls.enabled }}
+  tls:
+    - hosts:
+        - {{ .Values.ingress.host }}
+      secretName: {{ .Values.ingress.tls.secretName }}
+{{- end }}
 {{- end }}

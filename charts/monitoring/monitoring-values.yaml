@@ -1,0 +1,29 @@
+prometheus:
+  ingress:
+    enabled: true
+    hosts:
+      - prometheus.habast.top
+    path: /
+    pathType: Prefix
+    tls:
+      - hosts:
+          - prometheus.habast.top
+        secretName: habast-top-tls
+
+grafana:
+  ingress:
+    enabled: true
+    hosts:
+      - grafana.habast.top
+    path: /
+    pathType: Prefix
+    tls:
+      - hosts:
+          - grafana.habast.top
+        secretName: habast-top-tls
+
+  adminUser: change_admin_user
+  adminPassword: change_admin_password
+  sidecar:
+    dashboards:
+      enabled: true

@@ -1,28 +1,28 @@
+replicaCount: 2
+
 image:
   repository: docker.io/kkattl/backend
-  tag: latest
-  pullPolicy: IfNotPresent
-
-replicaCount: 2
+  tag: latest                 
+  pullPolicy: Always
 
 service:
   type: ClusterIP
   port: 8080
 
+env:
+  DB_ENDPOINT: postgres-postgresql.data.svc.cluster.local
+  DATABASE: change
+  USERNAME: change
+  USERPASSWORD: change
+  CACHE_ENDPOINT: redis-master.data.svc.cluster.local
+  REDIS_HOST: redis-master.data.svc.cluster.local
+  REDIS_PASS: ""
+
 ingress:
   enabled: true
-  className: nginx
   host: habast.top
-  tlsSecret: habast-top-tls
-  path: /api(/|$)(.*)
-
-env:
-  DATABASE_HOST: postgres-postgresql.data.svc.cluster.local
-  DATABASE_NAME: mydb
-  DATABASE_USER: myuser
-  REDIS_HOST: redis-master.data.svc.cluster.local
-
-resources: {}
-nodeSelector: {}
-affinity: {}
-tolerations: []
+  path: /api              
+  pathType: Prefix
+  tls:
+    enabled: true
+    secretName: habast-top-tls
